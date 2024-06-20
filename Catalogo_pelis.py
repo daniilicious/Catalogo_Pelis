@@ -18,12 +18,17 @@ def main():
     while True:
         mostrar_menu()
         if opcion == "1":
-            catalogo.agregar_pelicula()
+            titulo = input("Ingrese el titulo de la pelicula: ")
+            director = input("Ingrese el nombre del director: ")
+            año = input("Ingrese el año de la pelicula: ")
+            pelicula = input(titulo, director, año)
+            catalogo.agregar_pelicula(pelicula)
         elif opcion == "2":
             catalogo.listar_peliculas()
         elif opcion == "3":
             catalogo.eliminar_catalogo()
         elif opcion == "4":
+            print("Saliendo del programa")
             break
         else:
             print("Opcion invalida")
