@@ -17,6 +17,7 @@ def main():
 
     while True:
         mostrar_menu()
+        opcion = input("Seleccione una opcion: ")
         if opcion == "1":
             titulo = input("Ingrese el titulo de la pelicula: ")
             director = input("Ingrese el nombre del director: ")
@@ -28,7 +29,10 @@ def main():
         elif opcion == "3":
             catalogo.eliminar_catalogo()
         elif opcion == "4":
-            print("Saliendo del programa")
+            print("Saliendo del programa. Hasta luego!")
             break
         else:
             print("Opcion invalida")
+
+if __name__ == "__main__":
+   main()
