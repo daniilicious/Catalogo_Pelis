@@ -1,4 +1,4 @@
-#Catalogo de peliculas por Daniela Calderón.
+#Catalogo para organizar peliculas por Daniela Calderón.
 
 import os  #archivos en la compu
 class Pelicula: #Primera clase: atributos privados
@@ -111,6 +111,8 @@ def main():  #condiciones para el funcionamiento del catalogo
             break
         else:
             print("Opcion invalida")
+            
+        input("\nPresione enter para continuar")
 
 if __name__ == "__main__":
    main()
