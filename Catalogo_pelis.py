@@ -2,17 +2,25 @@
 
 import os  #archivos en la compu
 class Pelicula: #Primera clase: atributos privados
-   def __init__(self, nombre, genero):
-    self.nombre = nombre
-    self.genero = genero
+   def __init__(self, nombre, director, año, genero):
+    self.__nombre = nombre
+    self.__director = director
+    self.__año = año
+    self.__genero = genero
    
    def __str__(self):
-    return f"{self.__nombre} ({self.__genero})"
+    return f"{self.__nombre} ({self.__director} {self.__año} {self.__genero})"
    
-   def nombre(self):
+   def get_nombre(self):
        return self.__nombre
    
-   def genero(self):
+   def get_director(self):
+       return self.__director
+
+   def get_año(self):
+       return self.__año
+   
+   def get_genero(self):
        return self.__genero
    
 class CatalogoPeliculas: #Segunda clase: atributo nombre, ruta_archivo y metodos (agregar, listar y eliminar)
@@ -21,15 +29,15 @@ class CatalogoPeliculas: #Segunda clase: atributo nombre, ruta_archivo y metodos
        self.ruta_archivo = f"{nombre}.txt"
        if not os.path.exists(self.ruta_archivo):
           with open(self.ruta_archivo, "w") as archivo:
-              pass #si no existe, crear archivo
+              pass 
     
     def agregar_pelicula(self, pelicula):
         with open(self.ruta_archivo, "a") as archivo:
-          archivo.write(f"{pelicula.nombre}\n")
+          archivo.write(f"{pelicula.get_nombre()}, {pelicula.get_director()}, {pelicula.get_año()}, {pelicula.get_genero()}\n")
         print(f"Pelicula '{pelicula}' agregada al catalogo.")
 
     def listar_peliculas(self):
-        if os.path.exists(sckelf.ruta_archivo):
+        if os.path.exists(self.ruta_archivo):
             with open(self.ruta_archivo, "r") as archivo:
                 peliculas = archivo.readlines()
                 if peliculas:
@@ -38,6 +46,8 @@ class CatalogoPeliculas: #Segunda clase: atributo nombre, ruta_archivo y metodos
                         print(pelicula.strip())
                 else:
                     print("No hay peliculas en el catalogo.")
+        else:
+            print("El catalogo no existe.")
     
     def listar_genero(self):
         peliculas_genero = {}
@@ -45,18 +55,20 @@ class CatalogoPeliculas: #Segunda clase: atributo nombre, ruta_archivo y metodos
             with open(self.ruta_archivo, "r") as archivo:
                 peliculas = archivo.readlines()
                 for pelicula in peliculas:
-                    nombre, genero = pelicula.strip().split(",")
+                    nombre, director, año, genero = pelicula.strip().split(",")
                     if genero not in peliculas_genero:
                         peliculas_genero[genero] = []
-                    peliculas_genero[genero].append(nombre)
+                    peliculas_genero[genero].append(f"{nombre} ({director} {año})")
             if peliculas_genero:
                 print("Peliculas por genero: ")
                 for genero, nombres in peliculas_genero.items():
                     print(f"{genero}: ")
                     for nombre in nombres:
-                        print(f"{nombre}")
+                        print(f" {nombre}")
             else:
                 print("No hay peliculas en el catalogo")
+        else:
+            print("El catalogo no existe")
 
     def eliminar_peliculas(self):
         if os.path.exists(self.ruta_archivo):
@@ -66,14 +78,13 @@ class CatalogoPeliculas: #Segunda clase: atributo nombre, ruta_archivo y metodos
             print("El catalogo no existe")
 
 def mostrar_menu(): #opciones a  mostrar
-    print("\nBienvenido al catalogo de peliculas! Elige una opcion: \n")
+    print("\nBienvenido al catalogo de peliculas!\n")
     
     print("1. Agregar película")
     print("2. Listar películas")
     print("3. Eliminar catalogo de películas")
     print("4. Listar peliculas por genero")
     print("5. Salir")
-    opcion = input()
 
 def main():  #condiciones para el funcionamiento del catalogo
     nombre_catalogo = input("Ingrese el nombre del catalogo de peliculas:")
@@ -94,9 +105,9 @@ def main():  #condiciones para el funcionamiento del catalogo
         elif opcion == "3":
             catalogo.eliminar_catalogo()
         elif opcion == "4":
-            catalogo.listar_por_genero()
+            catalogo.listar_genero()
         elif opcion == "5":
-            print("Saliendo del programa. Hasta luego!")
+            print("Saliendo del programa. ¡Hasta luego!")
             break
         else:
             print("Opcion invalida")
