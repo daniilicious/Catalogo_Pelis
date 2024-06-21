@@ -2,39 +2,39 @@
 
 import os  #archivos en la compu
 class Pelicula: #Primera clase: atributos privados
-   def __init__(self, nombre, director, año, genero):
-    self.__nombre = nombre
-    self.__director = director
-    self.__año = año
-    self.__genero = genero
+    def __init__(self, nombre, director, año, genero):
+        self.__nombre = nombre
+        self.__director = director
+        self.__año = año
+        self.__genero = genero
    
-   def __str__(self):
-    return f"{self.__nombre} ({self.__director} {self.__año} {self.__genero})"
+    def __str__(self):
+        return f"{self.__nombre} ({self.__director} {self.__año} {self.__genero})"
    
-   def get_nombre(self):
-       return self.__nombre
+    def get_nombre(self):
+        return self.__nombre
    
-   def get_director(self):
-       return self.__director
+    def get_director(self):
+        return self.__director
 
-   def get_año(self):
-       return self.__año
+    def get_año(self):
+        return self.__año
    
-   def get_genero(self):
-       return self.__genero
+    def get_genero(self):
+        return self.__genero
    
 class CatalogoPeliculas: #Segunda clase: atributo nombre, ruta_archivo y metodos (agregar, listar y eliminar)
     def __init__(self, nombre):
-       self.nombre = nombre
-       self.ruta_archivo = f"{nombre}.txt"
-       if not os.path.exists(self.ruta_archivo):
-          with open(self.ruta_archivo, "w") as archivo:
-              pass 
+        self.nombre = nombre
+        self.ruta_archivo = f"{nombre}.txt"
+        if not os.path.exists(self.ruta_archivo):
+            with open(self.ruta_archivo, "w") as archivo:
+                pass 
     
     def agregar_pelicula(self, pelicula):
         with open(self.ruta_archivo, "a") as archivo:
-          archivo.write(f"{pelicula.get_nombre()}, {pelicula.get_director()}, {pelicula.get_año()}, {pelicula.get_genero()}\n")
-        print(f"Pelicula '{pelicula}' agregada al catalogo.")
+          archivo.write(f"{pelicula.get_nombre()},{pelicula.get_director()},{pelicula.get_año()},{pelicula.get_genero()}\n")
+        print(f"Pelicula '{pelicula.get_nombre()}' agregada al catalogo.")
 
     def listar_peliculas(self):
         if os.path.exists(self.ruta_archivo):
@@ -55,16 +55,16 @@ class CatalogoPeliculas: #Segunda clase: atributo nombre, ruta_archivo y metodos
             with open(self.ruta_archivo, "r") as archivo:
                 peliculas = archivo.readlines()
                 for pelicula in peliculas:
-                    nombre, director, año, genero = pelicula.strip().split(",")
+                    nombre, director, año, genero = [campo.strip() for campo in pelicula.strip().split(",")]
                     if genero not in peliculas_genero:
                         peliculas_genero[genero] = []
                     peliculas_genero[genero].append(f"{nombre} ({director} {año})")
             if peliculas_genero:
                 print("Peliculas por genero: ")
                 for genero, nombres in peliculas_genero.items():
-                    print(f"{genero}: ")
+                    print(f"{genero}:")
                     for nombre in nombres:
-                        print(f" {nombre}")
+                        print(f" - {nombre}")
             else:
                 print("No hay peliculas en el catalogo")
         else:
@@ -98,12 +98,12 @@ def main():  #condiciones para el funcionamiento del catalogo
             director = input("Ingrese el nombre del director: ")
             año = input("Ingrese el año de estreno: ")
             genero = input("Ingrese el genero: ")
-            pelicula = input(nombre, director, año, genero)
+            pelicula = Pelicula(nombre, director, año, genero)
             catalogo.agregar_pelicula(pelicula)
         elif opcion == "2":
             catalogo.listar_peliculas()
         elif opcion == "3":
-            catalogo.eliminar_catalogo()
+            catalogo.eliminar_peliculas()
         elif opcion == "4":
             catalogo.listar_genero()
         elif opcion == "5":
